@@ -1,10 +1,11 @@
 import axios from "axios"
-import {GET_ERRORS} from "./types";
+import {GET_ERRORS, GET_PROJECTS} from "./types";
+import { bindActionCreators } from "redux";
 
 
 export const createProject = (project, history) => async dispatch => {
     try {
-        const res = await axios.post("http://localhost:8080/api/project",project)
+        const res = await axios.post("http://localhost:8080/api/project",project);
         history.push("/dashboard")
     } catch (err) {
         dispatch({
@@ -12,4 +13,12 @@ export const createProject = (project, history) => async dispatch => {
             payload:err.response.data
         })
     }
-}
+};
+
+export const getProjects = () => async dispatch => {
+    const res = await axios.get("http://localhost:8080/api/project/all");
+    dispatch({
+        type: GET_PROJECTS,
+        payload: res.data
+    });
+};
